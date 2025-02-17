@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/Validate";
 
 const Login = () => {
   const [signup, setsignup] = useState(false);
+  const [message, setMessage] = useState("");
+  const email = useRef(null);
+  const password = useRef(null);
+  const username = useRef(null);
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    setMessage(checkValidData(email.current.value, password.current.value));
+  };
 
   const handlesignup = () => {
     setsignup(!signup);
   };
+
   return (
     <div>
       <Header />
       <div>
         <img
-          className="absolute w-full h-full object-container"
+          className="absolute w-full h-full object-cover"
           src="https://assets.nflxext.com/ffe/siteui/vlv3/f268d374-734d-474f-ad13-af5ba87ef9fc/web/IN-en-20250210-TRIFECTA-perspective_92338d5d-6ccd-4b1a-8536-eb2b0240a55e_large.jpg"
           alt="bg"
         />
@@ -25,25 +36,32 @@ const Login = () => {
         </h1>
         {signup && (
           <input
+            ref={username}
             type="text"
             placeholder="UserName"
             className="p-4 my-4 rounded-lg w-full bg-gray-800 focus:outline focus:outline-white"
           />
         )}
         <input
+          ref={email}
           type="text"
           placeholder="Email or mobile number"
           className="p-4 my-4 rounded-lg w-full bg-gray-800 focus:outline focus:outline-white"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="p-4 my-4 rounded-lg w-full bg-gray-800 focus:outline focus:outline-white"
         />
-        <button className="p-2 my-4 bg-red-700 text-lg font-semibold text-white w-full rounded-lg hover:bg-red-800">
+        <p className="text-red-700 text-start">{message}</p>
+        <button
+          className="p-2 my-4 bg-red-700 text-lg font-semibold text-white w-full rounded-lg hover:bg-red-800"
+          onClick={handleButtonClick}
+        >
           {signup ? "Sign Up" : "Sign In"}
         </button>
-        <p>Forgot Password?</p>
+        {!signup && <p className="cursor-pointer">Forgot Password?</p>}
         {signup ? (
           <p className="py-5 text-start cursor-pointer" onClick={handlesignup}>
             <span className="text-gray-400 ">Already Have an Account?</span>{" "}
