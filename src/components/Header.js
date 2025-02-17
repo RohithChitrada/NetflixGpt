@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({ signup, handlesignup }) => {
+const Header = () => {
   return (
     <div className="absolute p-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between items-center">
       <img
@@ -8,14 +8,6 @@ const Header = ({ signup, handlesignup }) => {
         alt="logo"
         className="w-44"
       />
-
-      {/* Button to switch between Sign In and Sign Up */}
-      <button
-        onClick={handlesignup}
-        className="bg-red-600 px-5 py-2 rounded-lg text-white font-semibold hover:bg-red-700"
-      >
-        {signup ? "Sign Up" : "Sign In"}
-      </button>
     </div>
   );
 };
