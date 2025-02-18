@@ -1,8 +1,14 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword,} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+  const navigate=useNavigate();
+
   const [signup, setsignup] = useState(false);
   const [message, setMessage] = useState("");
   const email = useRef(null);
@@ -12,6 +18,36 @@ const Login = () => {
   const handleButtonClick = (e) => {
     e.preventDefault();
     setMessage(checkValidData(email.current.value, password.current.value));
+
+    if(message) return;
+
+    if(signup){
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        setMessage(errorCode);
+
+      });
+    }
+    else{
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        setMessage(errorCode);
+      });
+    }
   };
 
   const handlesignup = () => {
