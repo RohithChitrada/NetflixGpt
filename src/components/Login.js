@@ -7,12 +7,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USERLOGO, WEBSITE_BG } from "../utils/constants";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [signup, setSignup] = useState(true);
@@ -40,12 +39,9 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
           updateProfile(user, {
             displayName: username.current.value,
-            photoURL:
-              "https://i.pinimg.com/originals/b6/77/cd/b677cd1cde292f261166533d6fe75872.png",
+            photoURL:USERLOGO,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -72,12 +68,11 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
+          // eslint-disable-next-line
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
-          setMessage(error.code); // Handle error during login
+          setMessage(error.code); 
         });
     }
   };
@@ -92,7 +87,7 @@ const Login = () => {
       <div>
         <img
           className="absolute w-full h-full object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/f268d374-734d-474f-ad13-af5ba87ef9fc/web/IN-en-20250210-TRIFECTA-perspective_92338d5d-6ccd-4b1a-8536-eb2b0240a55e_large.jpg"
+          src={WEBSITE_BG}
           alt="bg"
         />
         <div className="absolute inset-0 bg-black bg-opacity-70"></div>

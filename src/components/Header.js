@@ -1,25 +1,49 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useSelector } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice';
+import { LOGO } from "../utils/constants";
 
 const Header = () => {
   const navigate=useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
 
 const handleSignout=()=>{
   signOut(auth).then(() => {
-    navigate("/");
   }).catch((error) => {
   navigate("/error")
   });
 }
+  useEffect(() => {
+    const unsubscribe=onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(addUser({
+          uid: uid,
+          email: email,
+          displayName: displayName,
+          photoURL: photoURL,
+        }));
+        navigate("/browse")
+      } else {
+        dispatch(removeUser());
+        navigate("/")
+      }
+    });
+
+    return ()=> unsubscribe()
+
+  }, [dispatch,navigate]);
 
   return (
     <div className="absolute p-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between items-center">
       <img
-        src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={LOGO}
         alt="logo"
         className="w-44"
       />
