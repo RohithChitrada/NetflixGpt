@@ -1,57 +1,89 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
-import {createUserWithEmailAndPassword,signInWithEmailAndPassword,} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate=useNavigate();
-
-  const [signup, setsignup] = useState(false);
+  const [signup, setSignup] = useState(true);
   const [message, setMessage] = useState("");
+
   const email = useRef(null);
   const password = useRef(null);
   const username = useRef(null);
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    setMessage(checkValidData(email.current.value, password.current.value));
+    const errorMessage = checkValidData(
+      email.current.value,
+      password.current.value
+    );
+    setMessage(errorMessage);
 
-    if(message) return;
+    if (errorMessage) return;
 
-    if(signup){
-      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        setMessage(errorCode);
-
-      });
-    }
-    else{
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/browse");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        setMessage(errorCode);
-      });
+    if (!signup) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browse");
+          updateProfile(user, {
+            displayName: username.current.value,
+            photoURL:
+              "https://i.pinimg.com/originals/b6/77/cd/b677cd1cde292f261166533d6fe75872.png",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              setMessage(error.message);
+            });
+        })
+        .catch((error) => {
+          setMessage(error.code);
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browse");
+        })
+        .catch((error) => {
+          setMessage(error.code); // Handle error during login
+        });
     }
   };
 
-  const handlesignup = () => {
-    setsignup(!signup);
+  const handleSignupToggle = () => {
+    setSignup(!signup);
   };
 
   return (
@@ -68,9 +100,9 @@ const Login = () => {
 
       <form className="absolute w-3/12 bg-black p-10 my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-50">
         <h1 className="font-bold text-3xl py-4 text-start">
-          {signup ? "Sign Up" : "Sign In"}
+          {!signup ? "Sign Up" : "Sign In"}
         </h1>
-        {signup && (
+        {!signup && (
           <input
             ref={username}
             type="text"
@@ -95,18 +127,24 @@ const Login = () => {
           className="p-2 my-4 bg-red-700 text-lg font-semibold text-white w-full rounded-lg hover:bg-red-800"
           onClick={handleButtonClick}
         >
-          {signup ? "Sign Up" : "Sign In"}
+          {!signup ? "Sign Up" : "Sign In"}
         </button>
-        {!signup && <p className="cursor-pointer">Forgot Password?</p>}
+        {signup && <p className="cursor-pointer">Forgot Password?</p>}
         {signup ? (
-          <p className="py-5 text-start cursor-pointer" onClick={handlesignup}>
+          <p
+            className="py-5 text-start cursor-pointer"
+            onClick={handleSignupToggle}
+          >
             <span className="text-gray-400 ">Already Have an Account?</span>{" "}
             <span className="hover:underline underline-offset-2">
               Sign In Now.
             </span>
           </p>
         ) : (
-          <p className="py-5 text-start cursor-pointer" onClick={handlesignup}>
+          <p
+            className="py-5 text-start cursor-pointer"
+            onClick={handleSignupToggle}
+          >
             <span className="text-gray-400 ">New to Netflix?</span>{" "}
             <span className="hover:underline underline-offset-2">
               Sign Up Now.
