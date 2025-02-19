@@ -3,3 +3,14 @@ export const LOGO="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_product
 export const USERLOGO="https://i.pinimg.com/originals/b6/77/cd/b677cd1cde292f261166533d6fe75872.png";
 
 export const WEBSITE_BG="https://assets.nflxext.com/ffe/siteui/vlv3/f268d374-734d-474f-ad13-af5ba87ef9fc/web/IN-en-20250210-TRIFECTA-perspective_92338d5d-6ccd-4b1a-8536-eb2b0240a55e_large.jpg";
+
+export const API_OPTIONS = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzhmY2JkODViZDJkZDZlYWJkZGRiMjg0NzU4YWJkMCIsIm5iZiI6MTczOTk2MTU2NC43ODIsInN1YiI6IjY3YjViNGRjMjE1MjYzOGY1ZWUzYzcwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tOXRzIcYQxEj50MJMKBElxQ3Egye6drVyVafQE2pgUQ'
+    }
+  };
+
+
+ export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
