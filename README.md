@@ -131,3 +131,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - NetflixGPT
     - Search Bar
     - Movie Suggestions
+
+# Output
+ 
+![Screenshot 2025-02-25 124854](https://github.com/user-attachments/assets/c8213960-a6f6-4b73-b203-51af7bbdc622)
+
+![Screenshot 2025-02-25 124918](https://github.com/user-attachments/assets/dced1157-868a-42e8-88f0-f4c035c3277a)
+
+![Screenshot 2025-02-25 125045](https://github.com/user-attachments/assets/4174ffe2-c318-4fd8-83da-4e1a1e635aaf)
+
+![Screenshot 2025-02-25 125319](https://github.com/user-attachments/assets/6678ce73-f7cf-4eec-a9d1-fa3e89995b24)
+
+![Screenshot 2025-02-25 125239](https://github.com/user-attachments/assets/7de5e4b6-79c1-41d9-87e8-588820c9d45c)
