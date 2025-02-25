@@ -8,7 +8,8 @@ export const API_OPTIONS = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzhmY2JkODViZDJkZDZlYWJkZGRiMjg0NzU4YWJkMCIsIm5iZiI6MTczOTk2MTU2NC43ODIsInN1YiI6IjY3YjViNGRjMjE1MjYzOGY1ZWUzYzcwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tOXRzIcYQxEj50MJMKBElxQ3Egye6drVyVafQE2pgUQ'
+     // Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzhmY2JkODViZDJkZDZlYWJkZGRiMjg0NzU4YWJkMCIsIm5iZiI6MTczOTk2MTU2NC43ODIsInN1YiI6IjY3YjViNGRjMjE1MjYzOGY1ZWUzYzcwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tOXRzIcYQxEj50MJMKBElxQ3Egye6drVyVafQE2pgUQ'
+     Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk2NjYzMWUxNTIzYzE4MWVlYjg2YWNkNzZiMzJkNiIsInN1YiI6IjY0Y2EwZGJhYmYwOWQxMDEwMWYxODk2YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Y3RpHbTXBaxBgtKNokY1bssYf3BVYM746QHHmRFwjW8"
     }
   };
 
@@ -22,3 +23,6 @@ export const API_OPTIONS = {
   {identifire:"telugu",name:"Telugu"},
   {identifire:"spanish",name:"Spanish"},
 ]
+
+
+export const OPENAI_KEY="use your own key";
